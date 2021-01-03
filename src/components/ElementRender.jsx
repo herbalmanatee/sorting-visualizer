@@ -1,5 +1,13 @@
+import React from 'react';
+
 let ElementRender = (props) => {
-  console.log('test');
+    return (
+      <span>
+        <svg width="5" height={props.element}>
+          <rect width="5" height={props.element}/>
+        </svg>
+      </span>
+    )
 }
 
 export default ElementRender;
