@@ -9,6 +9,7 @@ let RenderArray = (props) => {
           return (
             <ElementRender
               element={element}
+              index={index}
               key={index}
             />
           )
