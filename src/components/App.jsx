@@ -2,6 +2,7 @@ import React from 'react';
 import ElementRender from './ElementRender.jsx';
 import RenderArray from './RenderArray.jsx';
 import sortByBubble from '../bubbleSort';
+import quickSort from '../quickSort.js';
 
 
 class App extends React.Component {
@@ -64,6 +65,34 @@ class App extends React.Component {
     }
   }
 
+  quickSort (array) {
+    let arrayStates = [];
+    let quicksort = (array) => {
+      let result = [];
+      let lessThanPivot = [];
+      let greaterThanPivot = [];
+      let checkSet = new Set(array)
+      if (array.length <= 1 || checkSet.size === 1) {
+        return array
+      }
+      let pivotVal = array[Math.floor(Math.random() * array.length)]
+      for (let val of array ) {
+        val < pivotVal ? lessThanPivot.push(val) : greaterThanPivot.push(val);
+      }
+      result = result.concat(quicksort(lessThanPivot), quicksort(greaterThanPivot));
+      arrayStates.push([lessThanPivot,greaterThanPivot]);
+      return result;
+    };
+    quicksort(array);
+    for (let i=0; i<arrayStates.length; i++) {
+      setTimeout(()=>{
+        this.setState({
+          array: arrayStates[i]
+        })
+      }, 50*i)
+    }
+  }
+
 
   render () {
     return(
@@ -71,6 +100,7 @@ class App extends React.Component {
         <h2>Sorting Algorithm Visualizer</h2>
         <button id="button" type="button" onClick={ () => {this.generateArray()} }>Generate Data</button>
         <button type="button" onClick={() => {this.bubbleSort(this.state.array)}}>Bubble Sort</button>
+        <button type="button" onClick={()=>{this.quickSort(this.state.array)}}>Quick Sort</button>
         <RenderArray
           array={this.state.array}
           generateArray={this.generateArray.bind(this)}
